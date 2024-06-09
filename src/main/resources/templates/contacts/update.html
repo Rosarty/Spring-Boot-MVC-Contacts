@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Contact</title>
+</head>
+<body>
+<h2>Update Contact</h2>
+<form action="/update-contact" method="post" th:action="@{/update-contact}">
+    <input type="hidden" name="id" th:value="${contact.id}">
+    <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" th:value="${contact.firstName}">
+    </div>
+    <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" th:value="${contact.lastName}">
+    </div>
+    <div>
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" th:value="${contact.phone}">
+    </div>
+    <input type="hidden" name="_method" value="PUT">
+    <button type="submit">Update</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "img": "resort-01_640.jpg",
+    "descr": "Lorem ipsum dolor"
+  },
+  {
+    "id": 2,
+    "img": "resort-02_640.jpg",
+    "descr": "Donec tempor"
+  },
+  {
+    "id": 3,
+    "img": "resort-03_640.jpg",
+    "descr": "Nam tempus mauris."
+  }
+]

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sunny-Tours</title>
+    <link rel='shortcut icon' th:href="@{icons/favicon.ico}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+</head>
+<body style="background-color: #f7ffcc;">
+<!-- Заголовок та фотографія -->
+<div class="d-flex justify-content-center align-items-center text-white p-3"
+     style="background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); font-size: 32px;">
+    <i class="bi-sun-fill" style="font-size: 3rem; color: #f1f73e;"></i>&nbsp;Sunny Tours
+</div>
+<div>
+    <img th:src="@{images/palms_1920.jpg}" class="img-fluid" alt="Palms">
+</div>
+
+<div class="container p-5">
+    <!-- Опис -->
+    <div class="container">
+        <div class="p-3">Lorem ipsum dolor sit amet, consectetur
+            adipiscing elit. Donec tempor mi nulla, eu aliquam massa rutrum eu.
+            Nam tempus ultrices mauris. Integer mattis massa magna, vitae blandit
+            erat pretium id. In et velit vel metus ultrices consequat eget ac enim.
+            Praesent id mi laoreet, tincidunt elit sit amet, laoreet erat.
+            Cras rhoncus justo sem. Fusce at enim placerat, elementum est at,
+            venenatis arcu.
+        </div>
+    </div>
+
+    <!-- Контактна інформація -->
+    <div class="container mt-5">
+        <h2>Contact Us</h2>
+        <!-- Форма для додавання контакту -->
+        <form action="/add-contact" method="post">
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" required>
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="phone" name="phone" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Contact</button>
+        </form>
+
+        <!-- Відображення контактів -->
+        <div class="container mt-5">
+            <h2>Contacts</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Actions</th> <!-- Додано стовпець для дій -->
+                </tr>
+                </thead>
+                <tbody id="contactTableBody">
+                <!-- Thymeleaf loop для контактів -->
+                <tr th:each="contact : ${contacts}">
+                    <td th:text="${contact.firstName}"></td>
+                    <td th:text="${contact.lastName}"></td>
+                    <td th:text="${contact.phone}"></td>
+                    <!-- Додано кнопки поруч з кожним контактом -->
+                    <td>
+                        <!-- Оновлення контакту -->
+                        <form th:action="@{/update-contact/{id}(id=${contact.id})}" method="get">
+                            <button type="submit" class="btn btn-info">Update</button>
+                        </form>
+                        <!-- Видалення контакту -->
+                        <form th:action="@{/delete-contact/{id}(id=${contact.id})}" method="get">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Тур місця -->
+    <div class="container mt-5">
+        <h2>Tour places</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+            <div class="card p-2 m-0.5" th:each="place:${places}">
+                <img th:src="@{${place.img}}" class="card-img-top" alt="card-img">
+                <div class="card-body">
+                    <p class="card-text visually-hidden" th:text="${place.id}"></p>
+                    <p class="card-text" th:text="${place.name}"></p>
+                    <p class="card-text" th:text="${place.descr}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Курорти -->
+    <div class="container mt-5">
+        <h2>Resorts</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+            <div class="card p-2 m-0.5" th:each="resort:${resorts}">
+                <img th:src="@{${resort.img}}" class="card-img-top" alt="card-img">
+                <div class="card-body">
+                    <p class="card-text visually-hidden" th:text="${resort.id}"></p>
+                    <p class="card-text" th:text="${resort.descr}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Кнопка виклику модального вікна -->
+    <div class="d-flex justify-content-center align-items-center p-3">
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#proposalModal">
+            <i class="bi bi-emoji-sunglasses"></i> Special proposal
+        </button>
+    </div>
+    <!-- Модальне вікно -->
+    <div class="modal fade" id="proposalModal" tabindex="-1" aria-labelledby="proposalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="proposalModalLabel" class="modal-title" style="color: #c72c67"><i class="bi bi-emoji-sunglasses"></i>
+                        Special proposal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body justify-content-center">
+                    <img th:src="@{images/hotel.jpg}" alt="image">
+                    <p style="font-size: 16px; color: #c72c67;">Sea Hotel. Three nights FREE.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Підвал -->
+    <div class="container-fluid justify-content-center p-3" style="background-color: #99e1f7;">
+        <p class="text-center">
+            <i class="bi bi-facebook"></i>&nbsp;&nbsp;
+            <i class="bi bi-instagram"></i>&nbsp;&nbsp;
+            <i class="bi bi-telegram"></i>
+        </p>
+        <p class="text-center" style="font-size: 14px">Address: Rainbow St. 12, MainCity, 00125<br>
+            <span class="bi bi-telephone-fill"></span> Phone: +011 555 123-4587<br>
+            <span class="bi bi-envelope"></span> E-mail: sunnytours@mail.com<br>
+            <span class="p-3" style="font-size: 12px">&copy; Sunny Tours, LLC</span>
+        </p>
+    </div>
+
+</body>
+</html>
